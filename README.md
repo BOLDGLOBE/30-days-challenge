@@ -138,10 +138,21 @@ gcc c1.c -o c1
 - **Registration No.:** AP26110090182
 
 
-<img width="843" height="1005" alt="Screenshot 2026-09-23 235753" src="https://github.com/user-attachments/assets/60fd356d-31c9-4cd8-af6d-20b2af385f0d" />
+
+
+The input of the student marks card
+
+
+<img width="556" height="789" alt="Screenshot 2026-09-23 235704" src="https://github.com/user-attachments/assets/3911dd39-7d88-4b75-a2b9-c2127c742d8d" />
 
 
 
 
-<img width="556" height="789" alt="Screenshot 2026-09-23 235704" src="https://github.com/user-attachments/assets/7f1c587f-0272-4873-9e63-31fbca959c99" />
+
+The output of the student marks card
+
+
+
+
+<img width="843" height="1005" alt="Screenshot 2026-09-23 235753" src="https://github.com/user-attachments/assets/3c818020-e0d5-4260-97a1-7cfb3b8ed8aa" />
 
