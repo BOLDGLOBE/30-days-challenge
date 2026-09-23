@@ -136,3 +136,9 @@ gcc c1.c -o c1
 
 - **Name:** JASWANTH . J
 - **Registration No.:** AP26110090182
+
+
+
+
+<img width="556" height="789" alt="Screenshot 2026-09-23 235704" src="https://github.com/user-attachments/assets/7f1c587f-0272-4873-9e63-31fbca959c99" />
+
