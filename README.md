@@ -134,5 +134,5 @@ gcc c1.c -o c1
 
 ## Author
 
-- **Name:** _your name_
-- **Registration No.:** _your reg no_
+- **Name:** JASWANTH . J
+- **Registration No.:** AP26110090182
