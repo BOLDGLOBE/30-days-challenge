@@ -138,6 +138,9 @@ gcc c1.c -o c1
 - **Registration No.:** AP26110090182
 
 
+<img width="843" height="1005" alt="Screenshot 2026-09-23 235753" src="https://github.com/user-attachments/assets/60fd356d-31c9-4cd8-af6d-20b2af385f0d" />
+
+
 
 
 <img width="556" height="789" alt="Screenshot 2026-09-23 235704" src="https://github.com/user-attachments/assets/7f1c587f-0272-4873-9e63-31fbca959c99" />
