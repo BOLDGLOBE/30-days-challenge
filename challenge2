@@ -1,0 +1,65 @@
+# Challenge 01 – Student Marks Card
+
+**SRM University-AP | CSE 101 – Fundamentals of Computing and C Programming 30-Day C Programming Challenge**
+
+## Problem Statement
+
+Write a C program that reads the marks of a student in five subjects and prints the **total**, **average** and **percentage**. Each subject is out of 100, so the maximum total is 500.
+
+## Algorithm
+
+1. Start.
+2. Declare integer variables `sub1` to `sub5` and `total`, and float variables `average` and `percentage`.
+3. Read the marks of the five subjects from the user.
+4. Calculate `total = sub1 + sub2 + sub3 + sub4 + sub5`.
+5. Calculate `average = total / 5.0`.
+6. Calculate `percentage = (total / 500.0) * 100.0`.
+7. Display the total, average and percentage.
+8. Stop.
+
+## Source Code (`c1.c`)
+
+```c
+#include<stdio.h>
+int main() {
+int sub1,sub2,sub3,sub4,sub5,total;
+float average,percentage;
+//print and scan five subjects marks//
+printf("\n <<<<<<student marks card>>>>>> ");
+printf("\n enter subject1 marks");
+scanf("%d",&sub1);
+printf("\n enter subject2 marks");
+scanf("%d",&sub2);
+printf("\n enter subject3 marks");
+scanf("%d",&sub3);
+printf("\n enter subject4 marks");
+scanf("%d",&sub4);
+printf("\n enter subject5 marks");
+scanf("%d",&sub5);
+
+//calculate total//
+total = sub1+sub2+sub3+sub4+sub5;
+
+//calculate average//
+average = total/5.0;
+
+//calculate percentage//
+percentage = (total/500.0)*100.0;
+
+//print total average and percentage//
+printf("\n total = %d",total);
+printf("\n average = %.2f",average);
+printf("\n percentage = %.2f%%",percentage);
+
+return 0;
+}
+```
+
+5. **Click "Commit changes"** → Done!
+
+Now when you go to your repo, you'll see a `challenge1` folder with a beautifully formatted README that displays exactly like the screenshot. GitHub automatically renders markdown files as formatted pages.
+
+**To add Challenge 2 the same way:**
+- Create `challenge2/README.md` with the TripCalc content I created earlier.
+
+This way, both challenges stay in **one repo** with organized folders. Anyone viewing your repo will see them nicely formatted. ✅
