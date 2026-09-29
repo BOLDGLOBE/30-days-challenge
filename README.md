@@ -271,4 +271,10 @@ gcc c2.c -o c2
 
 - **Name:** JASWANTH . J
 - **Registration No.:** AP26110090182
+INPUT 
+- <img width="498" height="459" alt="Screenshot 2026-09-29 192430" src="https://github.com/user-attachments/assets/612118c6-19d8-46d4-be3c-da382b8dfcfc" />
+
+OUTPUT
+<img width="725" height="645" alt="Screenshot 2026-09-29 192406" src="https://github.com/user-attachments/assets/4f05ed24-a7c2-40f3-bb6f-70735ed34cab" />
+
 
