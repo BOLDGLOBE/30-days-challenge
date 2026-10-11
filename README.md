@@ -278,3 +278,215 @@ OUTPUT
 <img width="725" height="645" alt="Screenshot 2026-09-29 192406" src="https://github.com/user-attachments/assets/4f05ed24-a7c2-40f3-bb6f-70735ed34cab" />
 
 
+---
+
+# Challenge 03 – SmartCart: Discount & Delivery Calculator
+
+**SRM University-AP | CSE 101 – Fundamentals of Computing and C Programming**
+**30-Day C Programming Challenge**
+
+## Problem Statement
+
+A student is purchasing items from an online store. Read the purchase amount, the customer type (1 = Student, 2 = Regular Customer) and the delivery distance in kilometres. Determine the discount and the delivery charge using conditional statements, and display the purchase amount, discount amount, amount after discount, delivery charge and final payable amount.
+
+### Discount Rules
+
+| Condition | Discount |
+|-----------|----------|
+| Student + Purchase ≥ Rs.2000 | 15% |
+| Student + Purchase < Rs.2000 | 10% |
+| Regular + Purchase ≥ Rs.3000 | 8% |
+| Regular + Purchase < Rs.3000 | 0% |
+
+### Delivery Rules
+
+| Distance | Delivery Charge |
+|----------|-----------------|
+| ≤ 5 km | Rs.40 |
+| > 5 km and ≤ 15 km | Rs.70 |
+| > 15 km | Rs.100 |
+
+## Algorithm
+
+1. Start.
+2. Declare `purchaseamount` and `distance` as floats, `customertype` as an integer, and `discount_percent`, `discount_amount`, `amount_after_discount`, `delivery_charge` and `final_payable` as floats initialised to 0.0.
+3. Read the purchase amount, the customer type (1 = Student, 2 = Regular Customer) and the delivery distance in km.
+4. If the customer type is 1 and the purchase amount ≥ 2000 set the discount to 15%; if the purchase amount < 2000 set it to 10%.
+5. If the customer type is 2 and the purchase amount ≥ 3000 set the discount to 8%; if the purchase amount < 3000 set it to 0%. For any other customer type print "Invalid customer" and set the discount to 0%.
+6. Calculate `discount_amount = (discount_percent / 100.0) * purchaseamount` and `amount_after_discount = purchaseamount - discount_amount`.
+7. If the distance ≤ 5 km the delivery charge is Rs.40; else if the distance ≤ 15 km it is Rs.70; otherwise it is Rs.100.
+8. Calculate `final_payable = amount_after_discount + delivery_charge`, display all the values with two decimals, and stop.
+
+## Source Code (`c3.c`)
+
+```c
+#include <stdio.h>
+
+int main() {
+    float purchaseamount, distance;
+    int customertype;
+    float discount_percent = 0.0, discount_amount = 0.0;
+    float amount_after_discount = 0.0, delivery_charge = 0.0, final_payable = 0.0;
+
+    printf("Enter purchase amount : ");
+    scanf("%f", &purchaseamount);
+
+    printf("Enter customer type (1 = Student, 2 = Regular Customer): ");
+    scanf("%d", &customertype);
+
+    printf("Enter delivery distance  ");
+    scanf("%f", &distance);
+
+    if (customertype == 1) {
+        if (purchaseamount >= 2000) {
+            discount_percent = 15.0;
+        } else {
+            discount_percent = 10.0;
+        }
+    } else if (customertype == 2) {
+        if (purchaseamount >= 3000) {
+            discount_percent = 8.0;
+        } else {
+            discount_percent = 0.0;
+        }
+    } else {
+        printf("Invalid customer \n");
+        discount_percent = 0.0;
+    }
+
+    discount_amount = (discount_percent / 100.0) * purchaseamount;
+    amount_after_discount = purchaseamount - discount_amount;
+
+    if (distance <= 5.0) {
+        delivery_charge = 40.0;
+    } else if (distance > 5.0 && distance <= 15.0) {
+        delivery_charge = 70.0;
+    } else {
+        delivery_charge = 100.0;
+    }
+
+    final_payable = amount_after_discount + delivery_charge;
+
+    printf("Purchase Amount:     %.2f\n", purchaseamount);
+    printf("Discount Amount:     %.2f (%f%%)\n", discount_amount, discount_percent);
+    printf("Amount After Discount:%.2f\n", amount_after_discount);
+    printf("Delivery Charge:     %.2f\n", delivery_charge);
+    printf("Final Payable Amount: %.2f\n", final_payable);
+
+    return 0;
+}
+```
+
+## How to Compile and Run
+
+```bash
+gcc c3.c -o c3
+./c3
+```
+
+## Test Cases
+
+All six test cases were executed on the program and the outputs matched the expected results.
+
+| TC | Purchase (Rs.) | Customer Type | Distance (km) | Discount (%) | Discount (Rs.) | Amount After Discount (Rs.) | Delivery (Rs.) | Final Payable (Rs.) | Result |
+|------|------|------|------|------|------|------|------|------|------|
+| TC01 | 2500 | Student | 20 | 15 | 375.00 | 2125.00 | 100.00 | 2225.00 | Pass |
+| TC02 | 3500 | Regular | 10 | 8 | 280.00 | 3220.00 | 70.00 | 3290.00 | Pass |
+| TC03 | 3000 | Student | 25 | 15 | 450.00 | 2550.00 | 100.00 | 2650.00 | Pass |
+| TC04 | 2000 | Student | 4 | 15 | 300.00 | 1700.00 | 40.00 | 1740.00 | Pass |
+| TC05 | 6000 | Regular | 16 | 8 | 480.00 | 5520.00 | 100.00 | 5620.00 | Pass |
+| TC06 | 1500 | Student | 2 | 10 | 150.00 | 1350.00 | 40.00 | 1390.00 | Pass |
+
+## Sample Output
+
+### Test Case 1 – Purchase 2500, Student, 20 km
+
+```
+Enter purchase amount : 2500
+Enter customer type (1 = Student, 2 = Regular Customer): 1
+Enter delivery distance  20
+Purchase Amount:     2500.00
+Discount Amount:     375.00 (15.000000%)
+Amount After Discount:2125.00
+Delivery Charge:     100.00
+Final Payable Amount: 2225.00
+```
+
+### Test Case 2 – Purchase 3500, Regular, 10 km
+
+```
+Enter purchase amount : 3500
+Enter customer type (1 = Student, 2 = Regular Customer): 2
+Enter delivery distance  10
+Purchase Amount:     3500.00
+Discount Amount:     280.00 (8.000000%)
+Amount After Discount:3220.00
+Delivery Charge:     70.00
+Final Payable Amount: 3290.00
+```
+
+### Test Case 3 – Purchase 3000, Student, 25 km
+
+```
+Enter purchase amount : 3000
+Enter customer type (1 = Student, 2 = Regular Customer): 1
+Enter delivery distance  25
+Purchase Amount:     3000.00
+Discount Amount:     450.00 (15.000000%)
+Amount After Discount:2550.00
+Delivery Charge:     100.00
+Final Payable Amount: 2650.00
+```
+
+### Test Case 4 – Purchase 2000, Student, 4 km
+
+```
+Enter purchase amount : 2000
+Enter customer type (1 = Student, 2 = Regular Customer): 1
+Enter delivery distance  4
+Purchase Amount:     2000.00
+Discount Amount:     300.00 (15.000000%)
+Amount After Discount:1700.00
+Delivery Charge:     40.00
+Final Payable Amount: 1740.00
+```
+
+### Test Case 5 – Purchase 6000, Regular, 16 km
+
+```
+Enter purchase amount : 6000
+Enter customer type (1 = Student, 2 = Regular Customer): 2
+Enter delivery distance  16
+Purchase Amount:     6000.00
+Discount Amount:     480.00 (8.000000%)
+Amount After Discount:5520.00
+Delivery Charge:     100.00
+Final Payable Amount: 5620.00
+```
+
+### Test Case 6 – Purchase 1500, Student, 2 km
+
+```
+Enter purchase amount : 1500
+Enter customer type (1 = Student, 2 = Regular Customer): 1
+Enter delivery distance  2
+Purchase Amount:     1500.00
+Discount Amount:     150.00 (10.000000%)
+Amount After Discount:1350.00
+Delivery Charge:     40.00
+Final Payable Amount: 1390.00
+```
+
+## Submission PDFs
+
+- [Challenge 03 – Submission write-up (PDF)](./challenge3-submission.pdf)
+- [Challenge 03 – Filled submission form (PDF)](./challenge3-form-filled.pdf)
+
+## Author
+
+- **Name:** JASWANTH . J
+- **Registration No.:** AP26110090182
+- **Date:** 11-10-2026
+- **GitHub:** [github.com/BOLDGLOBE](https://github.com/BOLDGLOBE)
+- **LinkedIn:** [linkedin.com/in/jaswanth-joga-2baa74423](https://www.linkedin.com/in/jaswanth-joga-2baa74423/)
+
