@@ -490,3 +490,19 @@ Final Payable Amount: 1390.00
 - **GitHub:** [github.com/BOLDGLOBE](https://github.com/BOLDGLOBE)
 - **LinkedIn:** [linkedin.com/in/jaswanth-joga-2baa74423](https://www.linkedin.com/in/jaswanth-joga-2baa74423/)
 
+
+
+The code of the SmartCart program
+
+
+
+<img width="1189" height="999" alt="Screenshot 2026-10-11 151050" src="docs/challenge3-code.png" />
+
+
+
+The output of the six test cases
+
+
+
+<img width="705" height="1068" alt="Screenshot 2026-10-11 151424" src="docs/challenge3-output.png" />
+
