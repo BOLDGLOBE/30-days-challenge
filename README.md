@@ -477,10 +477,6 @@ Delivery Charge:     40.00
 Final Payable Amount: 1390.00
 ```
 
-## Submission PDFs
-
-- [Challenge 03 – Submission write-up (PDF)](./challenge3-submission.pdf)
-- [Challenge 03 – Filled submission form (PDF)](./challenge3-form-filled.pdf)
 
 ## Author
 
