@@ -783,3 +783,7 @@ The menu is displayed before every choice. It is shown in full for Test Case 1 a
 - **Registration No.:** AP26110090182
 - **GitHub:** [github.com/BOLDGLOBE](https://github.com/BOLDGLOBE)
 - **LinkedIn:** [linkedin.com/in/jaswanth-joga-2baa74423](https://www.linkedin.com/in/jaswanth-joga-2baa74423/)
+The code of the Equation Solver+ program
+
+
+<img width="1982" height="1004" alt="Challenge 05 code" src="docs/challenge5-code.png" />
