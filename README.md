@@ -783,3 +783,7 @@ The menu is displayed before every choice. It is shown in full for Test Case 1 a
 - **Registration No.:** AP26110090182
 - **GitHub:** [github.com/BOLDGLOBE](https://github.com/BOLDGLOBE)
 - **LinkedIn:** [linkedin.com/in/jaswanth-joga-2baa74423](https://www.linkedin.com/in/jaswanth-joga-2baa74423/)
+
+- INPUT -
+- <img width="1982" height="1004" alt="combined_side_by_side" src="https://github.com/user-attachments/assets/f57a6742-4023-4eda-b362-297de11a211d" />
+
