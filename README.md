@@ -520,16 +520,24 @@ Write a menu-driven C program that lets a user choose a mathematical operation. 
 | 3 | Solve a quadratic equation (ax^2+bx+c=0) | Use the discriminant to identify the type of roots and calculate real roots |
 | 4 | Exit | Display a closing message and terminate the program |
 
-## Algorithm
-
-1. Start.
-2. Display the menu and read the user's choice.
-3. If the choice is 1, read a and b. If a is not 0, compute x = -b/a and display it; if a = 0 and b = 0 display "infinitely many solutions"; if a = 0 and b is not 0 display "no solution".
-4. If the choice is 2, read n. If n < 0 or n > 12 display a rejection message; otherwise set fact = 1 and multiply fact by every integer from 1 to n using a loop, then display n!.
-5. If the choice is 3, read a, b and c. If a = 0 display "not a quadratic equation"; otherwise compute the discriminant D = b*b - 4*a*c. If D > 0 display the two distinct real roots (-b + sqrt(D))/2a and (-b - sqrt(D))/2a; if D = 0 display the repeated root -b/2a; if D < 0 display "no real roots".
-6. If the choice is 4, display the exit message and terminate the program; for any other choice display "you have entered the wrong option".
-7. Repeat from step 2 until the user chooses 4 (Exit).
-8. Stop.
+ ## Algorithm / Pseudocode:
+1. Start .
+2. Declare variables choice ,linear, factorial ,quadratic .
+3. Start a loop with do while that continues till the users enters exit .
+4. MENUOPTIONS -1.solvelinear , 2.calculatefactorial, 3.solvequadratic, 4.exit.
+5. As the linear equation (ax+b=0), factorial=(n!),quadratic quadratic equation (ax^2+bx+c).
+6. Read all the input from the user and stores at choice.
+7. At case 1(linear equation )-read the values of a and b,uses the condition if (a!=0) then x=-b/a,then said to be linear .
+8. Or a=0 and b=0 said to be infinitely many solutions or a=0 and b not equal to 0 said to be no solutions .
+9. At case 2(factorial)-read the n value,use the condition if and else
+10. The n value between 0 to 12 then the output gets the factorial accordingly the n value given by the user .
+11. At case 3(quadratic equation )-read the values of a,b,c and roots 1 and 2 and discriminant.
+12. Calculate the discriminant=b^2-4ac.
+13. If discriminant is greater then 0 then two real roots are calculated ,else if discriminant =0 then only one real root is calculated else discriminant is less then 0 then no real solutions are calculated .
+14. At case 4(exit)-prints that you have exited the program.
+15. At case 5-prints you have entered thee invalid option.
+16. Stop .
+17.
 
 ## Source Code (`c5.c`)
 
