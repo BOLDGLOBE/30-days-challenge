@@ -502,3 +502,284 @@ The output of the six test cases
 
 <img width="705" height="1068" alt="Screenshot 2026-10-11 151424" src="docs/challenge3-output.png" />
 
+---
+
+# Challenge 05 – Equation Solver+
+
+**SRM University-AP | CSE 101 – Fundamentals of Computing and C Programming**
+**30-Day C Programming Challenge**
+
+## Problem Statement
+
+Write a menu-driven C program that lets a user choose a mathematical operation. After each operation, display the menu again. The program must stop only when the user selects Exit.
+
+| Choice | Operation | What the program must do |
+|------|------|------|
+| 1 | Solve a linear equation (ax+b=0) | Calculate x, or identify no solution / infinitely many solutions |
+| 2 | Calculate factorial (n!) | Calculate factorial using a loop. Accept integers from 0 to 12 only |
+| 3 | Solve a quadratic equation (ax^2+bx+c=0) | Use the discriminant to identify the type of roots and calculate real roots |
+| 4 | Exit | Display a closing message and terminate the program |
+
+## Algorithm
+
+1. Start.
+2. Display the menu and read the user's choice.
+3. If the choice is 1, read a and b. If a is not 0, compute x = -b/a and display it; if a = 0 and b = 0 display "infinitely many solutions"; if a = 0 and b is not 0 display "no solution".
+4. If the choice is 2, read n. If n < 0 or n > 12 display a rejection message; otherwise set fact = 1 and multiply fact by every integer from 1 to n using a loop, then display n!.
+5. If the choice is 3, read a, b and c. If a = 0 display "not a quadratic equation"; otherwise compute the discriminant D = b*b - 4*a*c. If D > 0 display the two distinct real roots (-b + sqrt(D))/2a and (-b - sqrt(D))/2a; if D = 0 display the repeated root -b/2a; if D < 0 display "no real roots".
+6. If the choice is 4, display the exit message and terminate the program; for any other choice display "you have entered the wrong option".
+7. Repeat from step 2 until the user chooses 4 (Exit).
+8. Stop.
+
+## Source Code (`c5.c`)
+
+```c
+#include<stdio.h>
+#include<math.h>
+
+void  MENUOPTIONS();
+void solvelinear();
+void calculatefactorial();
+void solvequadratic();
+
+int main() {
+
+int choice;
+do{
+MENUOPTIONS();
+scanf("%d",&choice);
+
+switch(choice) {
+case 1:
+solvelinear();
+break;
+case 2:
+calculatefactorial();
+break;
+case 3:
+solvequadratic();
+break;
+case 4:
+printf("\n you have exit  the programm");
+break;
+
+case 5:
+printf("\n you have entered the wrong option ");
+break;
+}
+}while(choice!=4);
+return 0;
+}
+
+void MENUOPTIONS() {
+printf("\n <<<<<<<<<<<<< >>>>>>>>>>>");
+
+ printf("\n 1. slovelinear ");
+printf("\n  linear equation (ax+b=0)");
+
+ printf("\n 2. calculatefactorial");
+printf("\n  factorial for the entered number  (n!)");
+
+ printf("\n 3. solvequadratic");
+printf("\n  quadratic equation (ax^2+bx+c=0)");
+printf("\n 4. exit");
+printf("\n enter your choice");
+}
+
+void solvelinear() {
+int a,b,x;
+printf("\n enter the values of a,b");
+printf("\n enter a=");
+scanf("%d",&a);
+printf("\n enter b=");
+scanf("%d",&b);
+
+//now checking the conditions as linear,infinitely many  or  no soltions//
+
+if(a!=0){
+x=-b/a;
+printf("\n linear solution:x=%d",x);
+}else if(a==0 && b==0){
+printf("\n infinitely many solutions");
+}
+else if(a==0 && b!=0){
+printf("\n no solution ");
+}
+}
+
+void calculatefactorial() {
+int n;
+printf("\n enter the digits(0-12):");
+scanf("%d",&n);
+if(n<0 || n>12){
+printf("\n digits must be entered between 0 - 12");
+}
+else{
+
+int fact =1;
+for (int i=1;i<=n;i++){
+fact *= i;
+}
+printf("\n %d! =%d",n,fact);
+}
+}
+
+void solvequadratic() {
+double a,b,c;
+ double discriminant,root1,root2;
+printf("\n enter the values of a , b and c");
+
+printf("\n  enter the value of a=");
+
+scanf("%lf",&a);
+printf("\n enter the value of b=");
+
+scanf("\n %lf",&b);
+printf("\n enter the value of c=");
+
+scanf("\n %lf",&c);
+
+if (a == 0){
+printf("\n not a quadratic equation ");
+}
+else{
+discriminant =(b*b)-(4*a*c);
+ if (discriminant>0){
+printf("\n two distinct real roots ");
+ // checking what are the  two roots //
+root1=(-b+sqrt(discriminant))/(2*a);
+root2=(-b-sqrt(discriminant))/(2*a);
+printf("\n root1=%.2lf,root2=%.2lf",root1,root2);
+}else if (discriminant == 0){
+printf("\n two equal roots ");
+root1=-b/(2*a);
+printf("\n root1=root2=%.2lf",root1);
+}
+else{
+printf("\n  no real roots ");
+}
+}
+}
+```
+
+## How to Compile and Run
+
+```bash
+gcc c5.c -o c5 -lm
+./c5
+```
+
+## Test Cases
+
+All eight test cases from the Challenge 05 submission sheet were executed on the program and the outputs matched the expected results.
+
+| TC | Operation | Input | Expected Output | Result |
+|------|------|------|------|------|
+| TC01 | Linear: one solution | a = 2, b = -8 | x = 4 | Pass |
+| TC02 | Linear: no solution | a = 0, b = 5 | no solution | Pass |
+| TC03 | Factorial | n = 5 | 120 | Pass |
+| TC04 | Factorial boundary | n = 0 | 1 | Pass |
+| TC05 | Quadratic: D > 0 | a = 1, b = -3, c = 2 | roots 1 and 2 | Pass |
+| TC06 | Quadratic: D = 0 | a = 1, b = -2, c = 1 | root 1 | Pass |
+| TC07 | Quadratic: D < 0 | a = 1, b = 0, c = 1 | no real roots | Pass |
+| TC08 | Invalid menu choice | 5 (outside 1-4) | you have entered the wrong option | Pass |
+
+## Sample Output
+
+The menu is displayed before every choice. It is shown in full for Test Case 1 and abbreviated afterwards.
+
+### Test Case 1 - Linear equation: a = 2, b = -8
+
+```
+ <<<<<<<<<<<<< >>>>>>>>>>> 
+ 1. slovelinear 
+  linear equation (ax+b=0)
+ 2. calculatefactorial
+  factorial for the entered number  (n!)
+ 3. solvequadratic
+  quadratic equation (ax^2+bx+c=0)
+ 4. exit
+ enter your choice1
+ enter the values of a,b
+ enter a=2
+ enter b=-8
+ linear solution:x=4
+...menu displayed again...
+ enter your choice4
+ you have exit  the programm
+```
+
+### Test Case 2 - Linear equation: a = 0, b = 5
+
+```
+ enter the values of a,b
+ enter a=0
+ enter b=5
+ no solution 
+...menu displayed again...
+ enter your choice4
+ you have exit  the programm
+```
+
+### Test Case 3 - Factorial: n = 5
+
+```
+ enter the digits(0-12):5
+ 5! =120
+```
+
+### Test Case 4 - Factorial boundary: n = 0
+
+```
+ enter the digits(0-12):0
+ 0! =1
+```
+
+### Test Case 5 - Quadratic equation: a = 1, b = -3, c = 2 (D > 0)
+
+```
+ enter the values of a , b and c
+ enter the value of a=1
+ enter the value of b=-3
+ enter the value of c=2
+ two distinct real roots 
+ root1=2.00,root2=1.00
+```
+
+### Test Case 6 - Quadratic equation: a = 1, b = -2, c = 1 (D = 0)
+
+```
+ enter the values of a , b and c
+ enter the value of a=1
+ enter the value of b=-2
+ enter the value of c=1
+ two equal roots 
+ root1=root2=1.00
+```
+
+### Test Case 7 - Quadratic equation: a = 1, b = 0, c = 1 (D < 0)
+
+```
+ enter the values of a , b and c
+ enter the value of a=1
+ enter the value of b=0
+ enter the value of c=1
+ no real roots 
+```
+
+### Test Case 8 - Invalid menu choice
+
+```
+ enter your choice5
+ you have entered the wrong option 
+...menu displayed again...
+ enter your choice4
+ you have exit  the programm
+```
+
+## Author
+
+- **Name:** JASWANTH . J
+- **Registration No.:** AP26110090182
+- **GitHub:** [github.com/BOLDGLOBE](https://github.com/BOLDGLOBE)
+- **LinkedIn:** [linkedin.com/in/jaswanth-joga-2baa74423](https://www.linkedin.com/in/jaswanth-joga-2baa74423/)
