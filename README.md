@@ -994,25 +994,38 @@ All eight test cases from the Challenge 06 submission sheet were executed on the
 ## Test Case Screenshots
 
 ### Test Case 1 – Ordinary sequence
+<img width="453" height="526" alt="image" src="https://github.com/user-attachments/assets/a4971540-ac0e-4bc5-8df9-234db6990314" />
+
+
 
 ### Test Case 2 – Repeated maximum
+<img width="453" height="526" alt="image" src="https://github.com/user-attachments/assets/1cea04eb-3811-4fd2-a195-6e4762c38ff4" />
+
+
 
 
 ### Test Case 3 – All values equal
+<img width="453" height="526" alt="image" src="https://github.com/user-attachments/assets/5406256d-2dd9-4e65-b83a-2c8a2fd0830a" />
+
 
 
 ### Test Case 4 – Strictly decreasing
+<img width="453" height="526" alt="image" src="https://github.com/user-attachments/assets/107c1cb1-5d32-472b-911e-c97f363d28d7" />
 
 ### Test Case 5 – Local peaks
+<img width="453" height="526" alt="image" src="https://github.com/user-attachments/assets/80bebc06-b82d-4e96-af06-3430c7460f8f" />
 
 
 ### Test Case 6 – Rotation
+<img width="453" height="526" alt="image" src="https://github.com/user-attachments/assets/1865c2f1-faf5-4997-9792-114338526cf2" />
 
 
 ### Test Case 7 – Personalised divisor
+<img width="453" height="526" alt="image" src="https://github.com/user-attachments/assets/482825fe-8303-48e1-936b-67368f1294e8" />
 
 
 ### Test Case 8 – Invalid input
+<img width="453" height="526" alt="image" src="https://github.com/user-attachments/assets/ab97748e-8e9d-4f7d-8f00-b7d9d4bb0f4c" />
 
 
 ## Author
