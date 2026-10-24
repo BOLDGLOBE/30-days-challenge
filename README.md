@@ -994,28 +994,26 @@ All eight test cases from the Challenge 06 submission sheet were executed on the
 ## Test Case Screenshots
 
 ### Test Case 1 – Ordinary sequence
-![Test Case 1](docs/challenge6-tc1.png)
 
 ### Test Case 2 – Repeated maximum
-![Test Case 2](docs/challenge6-tc2.png)
+
 
 ### Test Case 3 – All values equal
-![Test Case 3](docs/challenge6-tc3.png)
+
 
 ### Test Case 4 – Strictly decreasing
-![Test Case 4](docs/challenge6-tc4.png)
 
 ### Test Case 5 – Local peaks
-![Test Case 5](docs/challenge6-tc5.png)
+
 
 ### Test Case 6 – Rotation
-![Test Case 6](docs/challenge6-tc6.png)
+
 
 ### Test Case 7 – Personalised divisor
-![Test Case 7](docs/challenge6-tc7.png)
+
 
 ### Test Case 8 – Invalid input
-![Test Case 8](docs/challenge6-tc8.png)
+
 
 ## Author
 
