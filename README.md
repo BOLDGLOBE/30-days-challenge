@@ -795,3 +795,239 @@ The code of the Equation Solver+ program
 
 
 <img width="1982" height="1004" alt="Challenge 05 code" src="docs/challenge5-code.png" />
+# Challenge 06 – Pattern Detective
+
+**SRM University-AP | CSE 101 – Fundamentals of Computing and C Programming**
+**30-Day C Programming Challenge**
+
+## Problem Statement
+
+A smart-campus activity monitor records the number of visits over several time slots. Read N activity readings into a one-dimensional array and complete every pattern task: display the readings, calculate statistics, find the second-largest distinct value, count local peaks, find the longest increasing run, rotate the array in place by K (no second array), and count how many rotated values are divisible by D = (R % 9) + 1, where R is the last two digits of the registration number.
+
+N must be between 5 and 12 inclusive and each reading from 0 to 1000 inclusive. Invalid N or readings are asked again until valid.
+
+## Algorithm
+
+1. Validate and Input N: Prompt the user to enter a number N between 5 and 12, repeating until valid.
+2. Fill Array Safely: Read N integer readings from the user, forcing a re-entry if any value falls outside 0 to 1000.
+3. Print Original Array: Loop through the array from the first index to the last to display all entered elements.
+4. Calculate Stats: Find the sum, average, minimum, and maximum values across all array elements.
+5. Find Second Distinct Largest: Scan the array to find the highest value that is strictly less than the maximum element. If none exists, display a clear message.
+6. Count Local Peaks: Count elements (excluding the first and last indices) that are strictly greater than both immediate neighbours.
+7. Find Longest Growing Streak: Track the maximum length of consecutive elements where each value is strictly greater than the previous one.
+8. Normalize Shift K: Input a shift value K, reducing it using K % N and adjusting negative values to positive equivalents.
+9. Rotate In-Place: Reverse the full array, reverse the first K elements, and reverse the rest to shift it without a second array.
+10. Check Final Divisibility: Calculate the divisor D = (R % 9) + 1 from the registration digits and count how many rotated array elements divide evenly by D.
+
+## Source Code (`c6.c`)
+
+```c
+#include <stdio.h>
+
+int main() {
+    int N;
+    int arr[12];
+    do {
+        printf("Enter the number of readings (5 to 12): ");
+        scanf("%d", &N);
+        if (N < 5 || N > 12) {
+            printf("Invalid input! N must be between 5 and 12.\n");
+        }
+    } while (N < 5 || N > 12);
+
+    for (int i = 0; i < N; i++) {
+        do {
+            printf("Enter reading %d (0 to 1000): ", i + 1);
+            scanf("%d", &arr[i]);
+            if (arr[i] < 0 || arr[i] > 1000) {
+                printf("Invalid reading! Must be between 0 and 1000.\n");
+            }
+        } while (arr[i] < 0 || arr[i] > 1000);
+    }
+
+    printf("\n--- Task 1: Original Readings ---\n");
+    printf("Readings: ");
+    for (int i = 0; i < N; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+
+    printf("\n--- Task 2: Basic Statistics ---\n");
+    int sum = 0;
+    int min = arr[0];
+    int max = arr[0];
+
+    for (int i = 0; i < N; i++) {
+        sum += arr[i];
+        if (arr[i] < min) min = arr[i];
+        if (arr[i] > max) max = arr[i];
+    }
+    double average = (double)sum / N;
+
+    printf("Sum: %d\n", sum);
+    printf("Average: %.2f\n", average);
+    printf("Minimum: %d\n", min);
+    printf("Maximum: %d\n", max);
+
+    printf("\n--- Task 3: Second-Largest Distinct Value ---\n");
+    int second_max = -1;
+    int found_second = 0;
+
+    for (int i = 0; i < N; i++) {
+        if (arr[i] < max) {
+            if (!found_second || arr[i] > second_max) {
+                second_max = arr[i];
+                found_second = 1;
+            }
+        }
+    }
+
+    if (found_second) {
+        printf("Second-largest distinct value: %d\n", second_max);
+    } else {
+        printf("No second-largest distinct value exists.\n");
+    }
+
+    printf("\n--- Task 4: Local Peaks ---\n");
+    int peak_count = 0;
+    for (int i = 1; i < N - 1; i++) {
+        if (arr[i] > arr[i - 1] && arr[i] > arr[i + 1]) {
+            peak_count++;
+        }
+    }
+    printf("Total local peaks: %d\n",peak_count);
+
+    printf("\n--- Task 5: Longest Increasing Run ---\n");
+    int max_run = 1;
+    int current_run = 1;
+
+    for (int i = 1; i < N; i++) {
+        if (arr[i] > arr[i - 1]) {
+            current_run++;
+        } else {
+            if (current_run > max_run) {
+                max_run = current_run;
+            }
+            current_run = 1;
+        }
+    }
+    if (current_run > max_run) {
+        max_run = current_run;
+    }
+    printf("Length of the longest strictly increasing run: %d\n", max_run);
+
+    printf("\n--- Task 6: In-place Array Rotation ---\n");
+    int K;
+    printf("Enter integer K to rotate: ");
+    scanf("%d", &K);
+
+    int eff_K = (K % N + N) % N;
+
+    if (eff_K > 0) {
+        // Step 1: Reverse the entire array
+        for (int i = 0; i < N / 2; i++) {
+            int temp = arr[i];
+            arr[i] = arr[N - 1 - i];
+            arr[N - 1 - i] = temp;
+        }
+        // Step 2: Reverse the first eff_K elements
+        for (int i = 0; i < eff_K / 2; i++) {
+            int temp = arr[i];
+            arr[i] = arr[eff_K - 1 - i];
+            arr[eff_K - 1 - i] = temp;
+        }
+        // Step 3: Reverse the remaining N - eff_K elements
+        for (int i = 0; i < (N - eff_K) / 2; i++) {
+            int temp = arr[eff_K + i];
+            arr[eff_K + i] = arr[N - 1 - i];
+            arr[N - 1 - i] = temp;
+        }
+    }
+
+    printf("Rotated array: ");
+    for (int i = 0; i < N; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+
+    printf("\n--- Task 7: Registration Divisibility Check ---\n");
+    int R;
+    printf("Enter the last two digits of your registration number: ");
+    scanf("%d", &R);
+
+    int D = (R % 9) + 1;
+    int divisible_count = 0;
+    for (int i = 0; i < N; i++) {
+        if (arr[i] % D == 0) {
+            divisible_count++;
+        }
+    }
+    printf("Calculated Value D = %d\n", D);
+    printf("Count of values divisible by D in the rotated array: %d\n", divisible_count);
+
+    return 0;
+}
+```
+
+## How to Compile and Run
+
+```bash
+gcc c6.c -o c6
+./c6
+```
+
+## Test Cases
+
+All eight test cases from the Challenge 06 submission sheet were executed on the program and the outputs matched the expected results. R is the last two digits of the registration number (82), so D = (82 % 9) + 1 = 2.
+
+| TC | Scenario | Input / Expected Behaviour | Result |
+|------|------|------|------|
+| TC01 | Ordinary sequence | 12, 7, 18, 25, 11 with K = 2 — sum 73, average 14.60, min 7, max 25 | Pass |
+| TC02 | Repeated maximum | 4, 9, 6, 9, 2 with K = 0 — second-largest distinct value is 6 | Pass |
+| TC03 | All values equal | 5, 5, 5, 5, 5 — no second-largest distinct value; peak count 0 | Pass |
+| TC04 | Strictly decreasing | 9, 8, 7, 6, 5 with K = -1 — increasing-run length is 1; left rotation works | Pass |
+| TC05 | Local peaks | 2, 7, 3, 8, 4 — peak count is 2 (7 and 8) | Pass |
+| TC06 | Rotation | 1, 2, 3, 4, 5 with K = 2 — rotated array 4 5 1 2 3 (K = 0 and negative K covered by TC02/TC04) | Pass |
+| TC07 | Personalised divisor | R = 82 → D = 2 — count of values divisible by D after rotation | Pass |
+| TC08 | Invalid input | N = 2 and N = 15 rejected; reading 2000 and -5 rejected; re-asked until valid | Pass |
+
+## Test Case Screenshots
+
+### Test Case 1 – Ordinary sequence
+![Test Case 1](docs/challenge6-tc1.png)
+
+### Test Case 2 – Repeated maximum
+![Test Case 2](docs/challenge6-tc2.png)
+
+### Test Case 3 – All values equal
+![Test Case 3](docs/challenge6-tc3.png)
+
+### Test Case 4 – Strictly decreasing
+![Test Case 4](docs/challenge6-tc4.png)
+
+### Test Case 5 – Local peaks
+![Test Case 5](docs/challenge6-tc5.png)
+
+### Test Case 6 – Rotation
+![Test Case 6](docs/challenge6-tc6.png)
+
+### Test Case 7 – Personalised divisor
+![Test Case 7](docs/challenge6-tc7.png)
+
+### Test Case 8 – Invalid input
+![Test Case 8](docs/challenge6-tc8.png)
+
+## Author
+
+- **Name:** JASWANTH . J
+- **Registration No.:** AP26110090182
+
+The code of the Pattern Detective program
+
+<img width="840" height="952" alt="Challenge 06 code screenshot 1" src="docs/challenge6-code-1.jpg" />
+
+<img width="840" height="952" alt="Challenge 06 code screenshot 2" src="docs/challenge6-code-2.jpg" />
+
+<img width="840" height="952" alt="Challenge 06 code screenshot 3" src="docs/challenge6-code-3.jpg" />
+
+<img width="840" height="952" alt="Challenge 06 code screenshot 4" src="docs/challenge6-code-4.jpg" />
