@@ -1357,6 +1357,7 @@ R5 0 0 0 0 0 0 0 0
 ```
 
 <!-- Add the screenshot for Test Case 2 here -->
+<img width="542" height="508" alt="Screenshot 2026-11-03 110902" src="https://github.com/user-attachments/assets/900af18d-0acc-4d60-a78c-48272e471a56" />
 
 
 
@@ -1380,6 +1381,7 @@ Booking failed. Seat is either already booked or out of range.
 ```
 
 <!-- Add the screenshot for Test Case 3 here -->
+<img width="655" height="200" alt="Screenshot 2026-11-03 111003" src="https://github.com/user-attachments/assets/0f045ece-0cca-495b-a21b-2c431818afd4" />
 
 
 
@@ -1419,6 +1421,7 @@ R4 0 0 0 0 0 0 0 0
 R5 0 0 0 0 0 0 0 0
 ```
 
+<img width="601" height="522" alt="Screenshot 2026-11-03 111048" src="https://github.com/user-attachments/assets/8b17f395-1991-40f0-ac32-a2a462e74a6f" />
 <!-- Add the screenshot for Test Case 4 here -->
 
 
@@ -1459,6 +1462,7 @@ R3 0 0 0 0 0 0 0 0
 R4 0 0 0 0 0 0 0 0
 R5 0 0 0 0 0 0 0 0
 ```
+<img width="547" height="539" alt="Screenshot 2026-11-03 111548" src="https://github.com/user-attachments/assets/bb20f7c9-b571-42c2-9624-c6dbeb36535d" />
 
 <!-- Add the screenshot for Test Case 5 here -->
 
@@ -1489,7 +1493,9 @@ R4 0 0 0 0 1 0 0 0
 R5 0 0 0 0 0 0 0 0
 ```
 
-<!-- Add the screenshot for Test Case 6 here -->
+
+- Add the screenshot for Test Case 6 here -->
+<img width="547" height="539" alt="Screenshot 2026-11-03 111548" src="https://github.com/user-attachments/assets/bfc710a8-d7ca-4e19-92ab-2bf4323dde23" />
 
 
 
@@ -1513,6 +1519,7 @@ Group reservation failed. Not enough consecutive seats in any row.
 ```
 
 <!-- Add the screenshot for Test Case 7 here -->
+<img width="633" height="202" alt="Screenshot 2026-11-03 112212" src="https://github.com/user-attachments/assets/a4fa4d34-3ed8-4cbf-a219-c448382a1ef3" />
 
 
 
@@ -1548,6 +1555,7 @@ Busiest row(s): Row 1 (3 seats)
 ```
 
 <!-- Add the screenshot for Test Case 8 here -->
+<img width="479" height="429" alt="Screenshot 2026-11-03 112408" src="https://github.com/user-attachments/assets/d792563d-94c8-447b-8d49-983acec525d8" />
 
 
 
@@ -1570,6 +1578,7 @@ Invalid choice. Please try again.
 ```
 
 <!-- Add the screenshot for Test Case 9 here -->
+<img width="391" height="199" alt="Screenshot 2026-11-03 112423" src="https://github.com/user-attachments/assets/796f0cc8-d299-4f87-8c10-1c9547ba463c" />
 
 
 
@@ -1581,6 +1590,7 @@ Invalid choice. Please try again.
 The code of the Auditorium Seat Reservation program
 
 <!-- Add the Challenge 09 code screenshot here -->
+<img width="3488" height="951" alt="seat_booking_code_side_by_side" src="https://github.com/user-attachments/assets/4be88224-9697-4172-9dba-7a8ee345be3a" />
 
 
 
