@@ -1042,3 +1042,546 @@ The code of the Pattern Detective program
 <img width="840" height="952" alt="Challenge 06 code screenshot 3" src="docs/challenge6-code-3.jpg" />
 
 <img width="840" height="952" alt="Challenge 06 code screenshot 4" src="docs/challenge6-code-4.jpg" />
+
+---
+
+# Challenge 09 – Auditorium Seat Reservation
+
+**SRM University-AP | CSE 101 – Fundamentals of Computing and C Programming**
+**30-Day C Programming Challenge**
+
+## Problem Statement
+
+Write a menu-driven C program that manages the seating of an auditorium with 5 rows and 8 columns (40 seats) stored in a two-dimensional array, where 0 means Available and 1 means Booked. The program must display the seating arrangement, book one seat, cancel a booking, print an occupancy report with the busiest row(s), and reserve a block of adjacent seats for a group using first-fit allocation. The menu is displayed again after every operation and the program stops only when the user selects Exit.
+
+| Choice | Operation | What the program must do |
+|------|------|------|
+| 1 | Display seats | Print the legend and all 40 seat values with row and column labels |
+| 2 | Book one seat | Read row (1-5) and seat (1-8); book the seat if it is free and in range |
+| 3 | Cancel booking | Read row (1-5) and seat (1-8); free the seat if it is booked and in range |
+| 4 | Occupancy report | Show booked seats, available seats, occupancy percentage and busiest row(s) |
+| 5 | Group reservation | Book 2-8 adjacent free seats in one row using first-fit allocation |
+| 6 | Exit | Display a closing message and terminate the program |
+
+## Algorithm
+
+1. Start.
+2. Declare a 5 x 8 integer matrix `seats` and initialise every element to 0 (Available).
+3. Display the menu and read the choice. If the input is not an integer, print an invalid-input message, clear the input buffer and ask again.
+4. Choice 1 - Display seats: print the column header 1 to 8, then print each row number followed by its 8 seat values.
+5. Choice 2 - Book one seat: read the 1-based row and seat, convert them to 0-based indexes, and fail if either index is out of range or the seat is already booked; otherwise set the seat to 1 and print a success message.
+6. Choice 3 - Cancel booking: read the 1-based row and seat, convert them to 0-based indexes, and fail if either index is out of range or the seat is already free; otherwise set the seat to 0 and print a success message.
+7. Choice 4 - Occupancy report: count the booked seats per row and in total, derive the available seats, compute the occupancy percentage as (booked / 40) x 100, find the largest per-row count and print every row that reaches it, or a "None" message when nothing is booked.
+8. Choice 5 - Group reservation: reject group sizes below 2 or above 8; otherwise scan the rows left to right for the first run of `num_seats` consecutive free seats, mark that run as booked, print the allocated row and starting seat and return success; if no such run exists return failure.
+9. Choice 6 - Exit: print the closing message and leave the loop. Any other choice prints an invalid-choice message.
+10. Stop.
+
+## Source Code (`c9.c`)
+
+```c
+#include <stdio.h>
+
+#define ROWS 5
+#define COLS 8
+
+// Function prototypes
+void display_seats(int seats[ROWS][COLS]);
+int book_one_seat(int seats[ROWS][COLS], int row, int col);
+int cancel_booking(int seats[ROWS][COLS], int row, int col);
+void occupancy_report(int seats[ROWS][COLS]);
+int group_reservation(int seats[ROWS][COLS], int num_seats);
+
+int main() {
+    // 5 rows and 8 columns, initialized to 0 (Available)
+    int seats[ROWS][COLS] = {0};
+    int choice, row, col, num_seats, result;
+
+    do {
+        printf("\n--- Menu Options ---\n");
+        printf("1. Display seats\n");
+        printf("2. Book one seat\n");
+        printf("3. Cancel booking\n");
+        printf("4. Occupancy report\n");
+        printf("5. Group reservation\n");
+        printf("6. Exit\n");
+        printf("Enter your choice: ");
+        if (scanf("%d", &choice) != 1) {
+            printf("Invalid input. Please enter a number.\n");
+            while (getchar() != '\n'); // clear buffer
+            continue;
+        }
+
+        switch (choice) {
+            case 1:
+                display_seats(seats);
+                break;
+            case 2:
+                printf("Enter row (1-5) and seat (1-8): ");
+                scanf("%d %d", &row, &col);
+                result = book_one_seat(seats, row, col);
+                if (result == 1)
+                    printf("Seat booked successfully.\n");
+                else
+                    printf("Booking failed. Seat is either already booked or out of range.\n");
+                break;
+            case 3:
+                printf("Enter row (1-5) and seat (1-8) to cancel: ");
+                scanf("%d %d", &row, &col);
+                result = cancel_booking(seats, row, col);
+                if (result == 1)
+                    printf("Booking cancelled successfully.\n");
+                else
+                    printf("Cancellation failed. Seat is either already free or out of range.\n");
+                break;
+            case 4:
+                occupancy_report(seats);
+                break;
+            case 5:
+                printf("Enter number of adjacent seats to book: ");
+                scanf("%d", &num_seats);
+                result = group_reservation(seats, num_seats);
+                if (result == 1)
+                    printf("Group reservation successful.\n");
+                else
+                    printf("Group reservation failed. Not enough consecutive seats in any row.\n");
+                break;
+            case 6:
+                printf("Display a closing message and terminate the program.\n");
+                break;
+            default:
+                printf("Invalid choice. Please try again.\n");
+        }
+    } while (choice != 6);
+
+    return 0;
+}
+
+// 1. Display all 48 array elements to 8/1 legend
+void display_seats(int seats[ROWS][COLS]) {
+    printf("\nAuditorium Seating Arrangement (0: Available, 1: Booked):\n");
+    printf("  1 2 3 4 5 6 7 8\n");
+    for (int i = 0; i < ROWS; i++) {
+        printf("%d ", i + 1);
+        for (int j = 0; j < COLS; j++) {
+            printf("%d ", seats[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+// 2. Accept 1-based row/seat numbers. Return 1 if booking succeeds, otherwise return 0.
+int book_one_seat(int seats[ROWS][COLS], int row, int col) {
+    int r = row - 1;
+    int c = col - 1;
+    if (r < 0 || r >= ROWS || c < 0 || c >= COLS) return 0;
+    if (seats[r][c] == 0) {
+        seats[r][c] = 1;
+        return 1;
+    }
+    return 0;
+}
+
+// 3. Accept 1-based row/seat numbers. Return 1 if cancellation succeeds, otherwise return 0.
+int cancel_booking(int seats[ROWS][COLS], int row, int col) {
+    int r = row - 1;
+    int c = col - 1;
+    if (r < 0 || r >= ROWS || c < 0 || c >= COLS) return 0;
+    if (seats[r][c] == 1) {
+        seats[r][c] = 0;
+        return 1;
+    }
+    return 0;
+}
+
+// 4. Show booked seats, available seats, occupancy percentage, and busiest row(s).
+void occupancy_report(int seats[ROWS][COLS]) {
+    int total_booked = 0;
+    int row_booked[ROWS] = {0};
+
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            if (seats[i][j] == 1) {
+                total_booked++;
+                row_booked[i]++;
+            }
+        }
+    }
+
+    int total_seats = ROWS * COLS;
+    int total_available = total_seats - total_booked;
+    float percentage = ((float)total_booked / total_seats) * 100.0f;
+
+    // Find max booked in a row
+    int max_booked = -1;
+    for (int i = 0; i < ROWS; i++) {
+        if (row_booked[i] > max_booked) {
+            max_booked = row_booked[i];
+        }
+    }
+
+    printf("\n--- Occupancy Report ---\n");
+    printf("Booked seats: %d\n", total_booked);
+    printf("Available seats: %d\n", total_available);
+    printf("Occupancy percentage: %.2f%%\n", percentage);
+    printf("Busiest row(s):\n");
+    if (max_booked == 0) {
+        printf("None (no seats booked yet)\n");
+    } else {
+        for (int i = 0; i < ROWS; i++) {
+            if (row_booked[i] == max_booked) {
+                printf("%d\n", i + 1);
+            }
+        }
+    }
+}
+
+// 5. Accept group size 2-8. Return 1 if booked or 0 if rejected. Display allocated row and first seat on success
+int group_reservation(int seats[ROWS][COLS], int num_seats) {
+    if (num_seats < 2 || num_seats > 8) return 0;
+
+    for (int i = 0; i < ROWS; i++) {
+        int consecutive = 0;
+        int start_col = -1;
+        for (int j = 0; j < COLS; j++) {
+            if (seats[i][j] == 0) {
+                if (consecutive == 0) start_col = j;
+                consecutive++;
+                if (consecutive == num_seats) {
+                    // Book the consecutive seats
+                    for (int k = start_col; k < start_col + num_seats; k++) {
+                        seats[i][k] = 1;
+                    }
+                    printf("Allocated Row %d, starting at seat %d\n", i + 1, start_col + 1);
+                    return 1;
+                }
+            } else {
+                consecutive = 0;
+                start_col = -1;
+            }
+        }
+    }
+    return 0;
+}
+```
+
+## How to Compile and Run
+
+```bash
+gcc c9.c -o c9
+./c9
+```
+
+## Test Cases
+
+All nine test cases from the Challenge 09 submission sheet were executed on the program and the outputs matched the expected results.
+
+| TC | Test Case | Input / Expected Behaviour | Result |
+|------|------|------|------|
+| TC01 | Initial seating | At program start, all 40 seats must be available. | Pass |
+| TC02 | Successful booking | Book a valid available seat; it must change to 1. | Pass |
+| TC03 | Duplicate booking | Try booking the same booked seat again; reject it. | Pass |
+| TC04 | Cancellation | Cancel a booked seat, then try cancelling the same seat again. | Pass |
+| TC05 | Group reservation | Request 3 seats when a consecutive block exists; verify first-fit allocation. | Pass |
+| TC06 | No consecutive block | Create scattered free seats with no block large enough; no seat may change. | Pass |
+| TC07 | Group-size validation | Try 1 seat and more than 8 seats; reject both. | Pass |
+| TC08 | Occupancy report | Check booked/free totals, percentage, and tied busiest rows. | Pass |
+| TC09 | Invalid menu / seat | Enter a menu choice outside 1-6 or row/seat outside its range. | Pass |
+
+## Test Case Screenshots
+
+Each test case below repeats the input, the expected behaviour and the terminal output. The blank space after every test case is left for its screenshot.
+
+### Test Case 1 – Initial seating
+
+**Input / Expected Behaviour:** At program start, all 40 seats must be available.
+
+**Terminal Output:**
+
+```text
+--- Menu Options ---
+1. Display seats
+2. Book one seat
+3. Cancel booking
+4. Occupancy report
+5. Group reservation
+6. Exit
+Enter your choice: 1
+
+Auditorium Seating Arrangement (0: Available, 1: Booked):
+  1 2 3 4 5 6 7 8
+R1 0 0 0 0 0 0 0 0
+R2 0 0 0 0 0 0 0 0
+R3 0 0 0 0 0 0 0 0
+R4 0 0 0 0 0 0 0 0
+R5 0 0 0 0 0 0 0 0
+```
+
+<!-- Add the screenshot for Test Case 1 here -->
+
+
+
+### Test Case 2 – Successful booking
+
+**Input / Expected Behaviour:** Book a valid available seat; it must change to 1.
+
+**Terminal Output:**
+
+```text
+--- Menu Options ---
+1. Display seats
+2. Book one seat
+3. Cancel booking
+4. Occupancy report
+5. Group reservation
+6. Exit
+Enter your choice: 2
+Enter row (1-5) and seat (1-8): 4 5
+Seat booked successfully.
+
+--- Menu Options ---
+1. Display seats
+2. Book one seat
+3. Cancel booking
+4. Occupancy report
+5. Group reservation
+6. Exit
+Enter your choice: 1
+
+Auditorium Seating Arrangement (0: Available, 1: Booked):
+  1 2 3 4 5 6 7 8
+R1 0 0 0 0 0 0 0 0
+R2 0 0 0 0 0 0 0 0
+R3 0 0 0 0 0 0 0 0
+R4 0 0 0 0 1 0 0 0
+R5 0 0 0 0 0 0 0 0
+```
+
+<!-- Add the screenshot for Test Case 2 here -->
+
+
+
+### Test Case 3 – Duplicate booking
+
+**Input / Expected Behaviour:** Try booking the same booked seat again; reject it.
+
+**Terminal Output:**
+
+```text
+--- Menu Options ---
+1. Display seats
+2. Book one seat
+3. Cancel booking
+4. Occupancy report
+5. Group reservation
+6. Exit
+Enter your choice: 2
+Enter row (1-5) and seat (1-8): 4 5
+Booking failed. Seat is either already booked or out of range.
+```
+
+<!-- Add the screenshot for Test Case 3 here -->
+
+
+
+### Test Case 4 – Cancellation
+
+**Input / Expected Behaviour:** Cancel a booked seat, then try cancelling the same seat again.
+
+**Terminal Output:**
+
+```text
+--- Menu Options ---
+1. Display seats
+2. Book one seat
+3. Cancel booking
+4. Occupancy report
+5. Group reservation
+6. Exit
+Enter your choice: 3
+Enter row (1-5) and seat (1-8) to cancel: 4 5
+Cancellation failed. Seat is either already free or out of range.
+
+--- Menu Options ---
+1. Display seats
+2. Book one seat
+3. Cancel booking
+4. Occupancy report
+5. Group reservation
+6. Exit
+Enter your choice: 1
+
+Auditorium Seating Arrangement (0: Available, 1: Booked):
+  1 2 3 4 5 6 7 8
+R1 0 0 0 0 0 0 0 0
+R2 0 0 0 0 0 0 0 0
+R3 0 0 0 0 0 0 0 0
+R4 0 0 0 0 0 0 0 0
+R5 0 0 0 0 0 0 0 0
+```
+
+<!-- Add the screenshot for Test Case 4 here -->
+
+
+
+### Test Case 5 – Group reservation
+
+**Input / Expected Behaviour:** Request 3 seats when a consecutive block exists; verify first-fit allocation.
+
+**Terminal Output:**
+
+```text
+--- Menu Options ---
+1. Display seats
+2. Book one seat
+3. Cancel booking
+4. Occupancy report
+5. Group reservation
+6. Exit
+Enter your choice: 5
+Enter number of adjacent seats to book: 3
+Allocated Row 1, starting at seat 1
+Group reservation successful.
+
+--- Menu Options ---
+1. Display seats
+2. Book one seat
+3. Cancel booking
+4. Occupancy report
+5. Group reservation
+6. Exit
+Enter your choice: 1
+
+Auditorium Seating Arrangement (0: Available, 1: Booked):
+  1 2 3 4 5 6 7 8
+R1 1 1 1 0 0 0 0 0
+R2 0 0 0 0 0 0 0 0
+R3 0 0 0 0 0 0 0 0
+R4 0 0 0 0 0 0 0 0
+R5 0 0 0 0 0 0 0 0
+```
+
+<!-- Add the screenshot for Test Case 5 here -->
+
+
+
+### Test Case 6 – No consecutive block
+
+**Input / Expected Behaviour:** Create scattered free seats with no block large enough; no seat may change.
+
+**Terminal Output:**
+
+```text
+--- Menu Options ---
+1. Display seats
+2. Book one seat
+3. Cancel booking
+4. Occupancy report
+5. Group reservation
+6. Exit
+Enter your choice: 1
+
+Auditorium Seating Arrangement (0: Available, 1: Booked):
+  1 2 3 4 5 6 7 8
+R1 1 1 1 1 1 1 1 1
+R2 0 0 0 0 0 0 0 0
+R3 0 1 0 0 0 0 0 0
+R4 0 0 0 0 1 0 0 0
+R5 0 0 0 0 0 0 0 0
+```
+
+<!-- Add the screenshot for Test Case 6 here -->
+
+
+
+### Test Case 7 – Group-size validation
+
+**Input / Expected Behaviour:** Try 1 seat and more than 8 seats; reject both.
+
+**Terminal Output:**
+
+```text
+--- Menu Options ---
+1. Display seats
+2. Book one seat
+3. Cancel booking
+4. Occupancy report
+5. Group reservation
+6. Exit
+Enter your choice: 5
+Enter number of adjacent seats to book: 9
+Group reservation failed. Not enough consecutive seats in any row.
+```
+
+<!-- Add the screenshot for Test Case 7 here -->
+
+
+
+### Test Case 8 – Occupancy report
+
+**Input / Expected Behaviour:** Check booked/free totals, percentage, and tied busiest rows.
+
+**Terminal Output:**
+
+```text
+Auditorium Seating Arrangement (0: Available, 1: Booked):
+  1 2 3 4 5 6 7 8
+R1 1 1 1 0 0 0 0 0
+R2 0 0 0 0 0 0 0 0
+R3 0 1 0 0 0 0 0 0
+R4 0 0 0 0 1 0 0 0
+R5 0 0 0 0 0 0 0 0
+
+--- Menu Options ---
+1. Display seats
+2. Book one seat
+3. Cancel booking
+4. Occupancy report
+5. Group reservation
+6. Exit
+Enter your choice: 4
+
+--- Occupancy Report ---
+Booked seats: 5
+Available seats: 35
+Occupancy percentage: 12.50%
+Busiest row(s): Row 1 (3 seats)
+```
+
+<!-- Add the screenshot for Test Case 8 here -->
+
+
+
+### Test Case 9 – Invalid menu / seat
+
+**Input / Expected Behaviour:** Enter a menu choice outside 1-6 or row/seat outside its range.
+
+**Terminal Output:**
+
+```text
+--- Menu Options ---
+1. Display seats
+2. Book one seat
+3. Cancel booking
+4. Occupancy report
+5. Group reservation
+6. Exit
+Enter your choice: 9
+Invalid choice. Please try again.
+```
+
+<!-- Add the screenshot for Test Case 9 here -->
+
+
+
+## Author
+
+- **Name:** JASWANTH . J
+- **Registration No.:** AP26110090182
+
+The code of the Auditorium Seat Reservation program
+
+<!-- Add the Challenge 09 code screenshot here -->
+
+
+
+
